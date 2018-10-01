@@ -1,0 +1,6 @@
+#include "RoomMate.h"
+
+int main(void)
+{
+    return 0;
+}

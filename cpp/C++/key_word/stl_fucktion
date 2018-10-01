@@ -1,0 +1,15 @@
+plus
+minus
+multiplies
+divides
+modulus
+negate
+equal_to
+not_equal_to
+greater
+greater_equal
+less
+les_equal
+logical_and
+logical_or
+logical_not

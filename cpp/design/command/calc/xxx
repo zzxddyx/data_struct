@@ -1,0 +1,10 @@
+OBJ=Invoker.o main.o Receiver.o 
+HEAD=AddCommand.h Command.h DivCommand.h Invoker.h MulCommand.h Receiver.h SubCommand.h
+BIN=exe
+
+$(BIN):$(OBJ)
+	$(CXX) -o $@ $^ -std=c++11
+$(OBJ):$(HEAD)
+
+clean:
+	$(RM) $(OBJ)

@@ -1,0 +1,45 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <iterator>
+#include <algorithm>
+using namespace std;
+
+void check_num(const string &infile, const string &outfile1, const string &outfile2)
+{
+    ifstream file1(infile);
+    ofstream file2(outfile1);
+    ofstream file3(outfile2);
+    
+    istream_iterator<int> start(file1), end;
+    vector<int> vec(start, end);
+
+    ostream_iterator<int> out1(file2, " ");
+    ostream_iterator<int> out2(file3, " ");
+
+
+    for(auto x : vec)
+    {
+        if (x % 2)
+        {
+            out1 = x;
+        }
+        else
+        {
+            out2 = x;
+        }
+    }
+}
+
+int main(void)
+{
+    string file1 = "num.txt";
+    string file2 = "oushu.txt";
+    string file3 = "jishu.txt";
+
+    check_num(file1, file2, file3);
+
+    return 0;
+}
+
