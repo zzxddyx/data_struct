@@ -28,7 +28,7 @@ void Sort::BubbleSort(int *arr, int length)
  */
 void Sort::QuicklSort(int *arr, int left, int right)
 {
-    if (left >= right)
+    if (left > right)
         return;
 
     int low = left;
