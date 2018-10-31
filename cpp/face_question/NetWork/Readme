@@ -1,0 +1,86 @@
+1. netstat tcpdump ipcs ipcrm命令；
+    netstat : 显示网络信息,端口信息
+    tcpdump : 对网络上的数据包进行截获的包分析工具;tcpdump可以将网络中传送的数据包的"头"完全截获下来提供分析
+    ipcs    : ipcs提供进程间通信方式的信息,包括共享内存,信号量,消息队列
+        ipcs -a     是默认的输出信息,打印出当前系统中所有的进程间通信方式的信息
+        ipcs -m     打印出使用共享内存进行进程间通信的信息
+        ipcs -q     打印出使用消息队列进行进程间通信的信息
+        ipcs -s     打印出使用信号进行进程间通信的信息
+    ipcrm   : 移除一个消息对象,或者共享内存段,或者一个信号集.同时会将与ipc对象相关链的数据也一起移除.当然,只有超级管理员,或者ipc对象的创建者才有这项权利啦
+        ipcrm -M shmkey     移除用shmkey创建的共享内存段
+        ipcrm -m shmid      移除用shmid标识的共享内存段
+        ipcrm -Q msgkey     移除用msqkey创建的消息队列
+        ipcrm -q msqid      移除用msqid标识的消息队列
+        ipcrm -S semkey     移除用semkey创建的信号
+        ipcrm -s semid      移除用semid标识的信号
+        
+2. cpu 内存 硬盘 等等与系统性能调试相关的命令；
+    iostat : 一般我们可以通过top,iostat,free,vmstat等命令来查看初步定位问题.其中iostat可以给我们提供丰富的IO状态数据。
+    vmstat : 可以展现给定时间间隔的服务器的状态值,包括服务器的CPU使用率,内存使用,虚拟内存交换情况,IO读写情况.
+        相比top,我可以看到整个机器的CPU,内存,IO的使用情况,而不是单单看到各个进程的CPU使用率和内存使用率(使用场景不一样).
+    top free ps aux 
+    
+3. 设置修改权限chmod;
+    
+4. tcp网络状态查看;
+    netstat -aptn | awk '{print $6}' | sort | uniq -c | sort -rn
+
+5. 各进程状态;
+    运行态：进程占用CPU,并在CPU上运行.
+    就绪态：进程已经具备运行条件,但是CPU还没有分配过来.
+    阻塞态：进程因等待某件事发生而暂时不能运行.
+    
+6. 抓包tcpdump;
+
+7. awk sed了解；
+    awk : 用于文本处理的语言(取行,过滤),支持正则
+        NR代表行数,$n取某一列,$NF最后一列
+        NR==20,NR==30 从20行到30行
+        FS竖着切,列的分隔符
+        RS横着切,行的分隔符
+        awk '{print NR,$0}' /etc/inittab 给文件内容加行号
+        awk -F ":" '$5~/^s/{print $0}' /etc/passwd    以：为分隔符，打印第5列以s开头的一整行
+    sed : Strem Editor(流编辑器)缩写,是操作,过滤和转换文本内容的强大工具.常用功能有增删改查,过滤,取行
+        sed '2a 106,dandan,CSO' person.txt // 单行增加
+        sed '2a 106,dandan,CSO\n107,bingbing,CCO' person.txt //多行增加
+        sed -n '2p' person.txt // 按行查询
+
+8. tcp与udp的区别;
+
+9. udp调用connect有什么作用？
+    TCP中调用connect会引起三次握手,client与server建立连结;UDP中调用connect内核仅仅把对端ip&port记录下来.
+    普通的UDP发送两个报文内核做了如下:#1:建立连结#2:发送报文#3:断开连结#4:建立连结#5:发送报文#6:断开连结
+    采用connect方式的UDP发送两个报文内核如下处理:#1:建立连结#2:发送报文#3:发送报文另外一点,每次发送报文内核都由可能要做路由查询.
+
+10. tcp连接中时序图，状态图，必须非常非常熟练;
+    
+11. socket服务端的实现，select和epoll的区别(必问);
+    epoll的出现比较晚了,epoll是linux独有的高效的IO复用的机制.先简单提一下poll和select,poll和select很相似,但是poll没有select的文件描述符的限制(默认1024),poll使用pollfd结构代替描述符fd。 
+    epoll与poll的不同在于:poll每次返回整个文件描述符的数组,用户代码需要遍历数组找到哪些文件描述符上有IO事件.
+                          epoll_wait返回的是活动fd的列表,比遍历的数组小的多.epoll使用的是一种注册回调的机制,epoll_ctl为每一个fd指定一个回调函数,当设备就绪的时候,会唤醒等待队列中的等候者                   并调用其回调函数,回调函数会把对应的fd加入到就绪队列,epoll _wait就负责查询这个就绪队列,同时epoll也没有文件描述符数目的限制.
+    select和poll就相当于轮询,需要遍历整个的fd集合来确定IO就绪.而epoll只需要判断一下就绪链表是否为空就可以了.
+
+12. epoll哪些触发模式，有啥区别？(详尽的解释水平触发和边缘触发的区别，以及边缘触发在编程中要做哪些更多的确认)；
+    如果稍微有点电子方面经验的人,相信对水平触发和边沿触发的概念就比较了解了.如果是边缘触发模式,就是当状态变化的时候才通知,对应电子中的高低电平变化的上升沿和下降沿;而水平触发则是你等待的       状态到了,就一直通知.
+    注意因为边沿触发在被监控的文件描述符上有可读写事件发生时,epoll_wait会通知处理程序去读写,但是它只会通知一次,如果没有把数据全部读写完,下次调用epoll_wait时并不会通知你.因此需要去确认缓       冲区中的数据读写完毕,例如在非阻塞模式下读取数据,使用循环.根据返回的error,EAGIN和EWOULDBLOCK来判断数据是否全部读取完毕.
+
+13. 大规模连接上来，并发模型怎么设计?
+
+14. tcp结束连接怎么握手，time_wait状态是什么,为什么会有time_wait状态？哪一方会有time_wait状态，如何避免?
+    主动关闭方会有一个TIME_WAIT状态,也称为2MSL状态.主要是防止新建立的连接使用原来的socket,迟到的报文到达后被错误的接收.MSL(maximum Segment Lifetime)是任何报文段被丢弃在网络内的最长时间        .在2MSL时间内,本次连接的socket(客户IP和端口,服务器IP和端口)不能再被使用.迟到的报文会被丢弃.
+    TIME_WAIT的另一个存在理由是可靠的实现TCP全双工连接的终止.假设最终的ACK丢失了,服务器需要重新发送一个FIN,客户必须能够重新发送ACK,不然它将响应以一个RST,这将被服务器解释为一个错误. 
+    大量的TCP的短连接引发的TIME_WAIT会占用很多资源,其默认等待时间比较保守. 
+        　　 
+        - 可以通过修改操作系统设置例如tcp_fin_timeout减少TIME_WAIT时间； 
+        - 设置tcp_tw_recycle=1开启socket的快速回收； 
+        - 使用比较激进的socket的SO_LINGER选项，设置为0，取消关闭等待。 
+        - 或者选择使用tcp_tw_reuse开启socket的重用。
+
+16. time_wait状态占用资源（必须回答的详细）?
+17. tcp头多少字节？哪些字段?(必问)
+18. 什么是滑动窗口?（必问）
+19. connect会阻塞，怎么解决?(必考必问，提示：设置非阻塞，返回之后用select检测状态)；
+20. 如果select返回可读，结果只读到0字节，什么情况？
+21. keepalive 是什么东东？如何使用？
+22. 列举你所知道的tcp选项，并说明其作用。
+23. socket什么情况下可读？
