@@ -7,6 +7,10 @@ using namespace std;
 
 int main(void)
 {
+    /*
+     *  1. 初始化创建管道
+     *  2. fork进程通信
+     */
     int my_pipe[2]; // 0:读 1:写
     if(pipe(my_pipe) < 0)
     {
