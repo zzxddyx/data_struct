@@ -6,6 +6,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <string.h>
 
 using namespace std;
 const int MAX_SIZE = 1024;
@@ -18,10 +20,10 @@ void my_error(const char *str)
 
 int main(void)
 {
-    /*
-    if(mkfifo("./fifo", S_IRUSR | S_IWUSR | S_IWGRP) < 0)
+    if(mkfifo("./fifo", S_IRUSR | S_IWUSR | S_IWGRP) < 0 && errno != EEXIST)
+    {
         my_error("mkfifo error");
-        */
+    }
 
     int fd = open("./fifo", O_RDONLY);
     if (fd < 0)
@@ -38,6 +40,9 @@ int main(void)
         if ( n == 0)
             break;
     }
+
+    close(fd);
+    unlink("./fifo");
 
     return 0;
 }
