@@ -56,7 +56,7 @@ int main(void)
             }
         }
 
-        sleep(10);
+        sleep(3);
     }
     if(shmdt(shm_data) < 0)
     {

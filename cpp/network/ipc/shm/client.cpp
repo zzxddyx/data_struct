@@ -10,7 +10,7 @@ int main(void)
         return -1;
     }
 
-    int sem_id = semget(key, 1, 0644 | IPC_CREAT);
+    int sem_id = semget(key, 1, 0);
     if (sem_id < 0)
     {
         perror("server semget error");
@@ -19,7 +19,7 @@ int main(void)
 
     //shm
     key = ftok(SHM_PATH, SHM_KEY);
-    int shm_id = shmget(key, SHM_LEN, 0644 | IPC_CREAT);
+    int shm_id = shmget(key, SHM_LEN, 0);
     if (shm_id < 0)
     {
         perror("server shmget error");
