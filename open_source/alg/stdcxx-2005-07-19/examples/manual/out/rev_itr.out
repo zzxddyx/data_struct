@@ -1,5 +1,0 @@
-Traversing vector with iterator: 
-     3 4 7 8 
-
-Same vector, same loop, reverse_itertor: 
-     8 7 4 3 

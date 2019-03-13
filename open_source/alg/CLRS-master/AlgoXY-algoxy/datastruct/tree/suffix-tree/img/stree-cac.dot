@@ -1,9 +1,0 @@
-digraph G{
-    margin=0;
-	node[shape=circle]
-	t[label=""];
-	tac[label=""];
-	t->tac[label="ac"]
-	tcac[label=""];
-	t->tcac[label="cac"]
-}
