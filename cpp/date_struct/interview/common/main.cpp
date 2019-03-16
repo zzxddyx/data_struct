@@ -29,6 +29,7 @@ int main(void)
 */
 
 
+/*
 #include "./ParentBTree.h"
 
 int main(void)
@@ -48,4 +49,24 @@ int main(void)
     PrintNodeData(p8);
     
     return 0;
+}
+*/
+
+#include "./List.h"
+int main(void)
+{
+    ListNode *p1 = CreateNode(1);
+    ListNode *p2 = CreateNode(2);
+    ListNode *p3 = CreateNode(3);
+    ListNode *p4 = CreateNode(4);
+    ListNode *p5 = CreateNode(5);
+    ListNode *p6 = CreateNode(6);
+
+    ConnectListNode(p1, p2);
+    ConnectListNode(p2, p3);
+    ConnectListNode(p3, p4);
+    ConnectListNode(p4, p5);
+    ConnectListNode(p5, p6);
+
+    Print(p1);
 }
