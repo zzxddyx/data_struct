@@ -3,7 +3,7 @@
 #include "../common/BTree.h"
 using namespace std;
 
-void _FindPath(BTNODE *pRoot, int sum, vector<BTNODE*> path, int curSum)
+void _FindPath(BTNODE *pRoot, int sum, vector<BTNODE*> &path, int curSum)
 {
     curSum += pRoot->data;
     path.push_back(pRoot);
@@ -25,7 +25,7 @@ void _FindPath(BTNODE *pRoot, int sum, vector<BTNODE*> path, int curSum)
     if(pRoot->rChild != NULL)
         _FindPath(pRoot->rChild, sum, path, curSum);
 
-    curSum -= pRoot->data;
+    //curSum -= pRoot->data;
     path.pop_back();
 }
 
@@ -57,7 +57,7 @@ int main(void)
     MidOrderPrint(p1);
     cout << endl;
 
-    FindPath(p1, 10);
+    FindPath(p1, 8);
 
     return 0;
 }
