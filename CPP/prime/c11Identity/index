@@ -1,0 +1,7 @@
+1. 范围for循环
+    std::string s("htllo");
+    for(char &c : s)
+    {
+        std::cout << c << std::endl;
+    }
+
