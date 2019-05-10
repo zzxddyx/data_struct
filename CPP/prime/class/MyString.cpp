@@ -35,7 +35,7 @@ class MyString
             return *this;
         }
 
-        ~MyString()
+        virtual ~MyString()
         {
             if(mStr != nullptr)
             {
@@ -43,6 +43,10 @@ class MyString
                 mStr = nullptr;
             }
         }
+
+    public:
+        friend std::ostream& operator<<(std::ostream &out, MyString &ref);
+        friend std::istream& operator>>(std::istream &in, MyString &ref);
 
     public:
         void print()
@@ -53,6 +57,18 @@ class MyString
     private:
         char *mStr = nullptr;
 };
+
+std::ostream& operator<<(std::ostream &out, MyString &ref)
+{
+    out << ref.mStr;
+    return out;
+}
+
+std::istream& operator>>(std::istream &in, MyString &ref)
+{
+    in >> ref.mStr;
+    return in;
+}
 
 int main(void)
 {
@@ -65,7 +81,10 @@ int main(void)
 
     MyString *p2(pStr);
     p2->print();
+    std::cout << *p2 << std::endl;
 
+    MyString *p3;
+    std::cin << p2;
 
 
     /*
