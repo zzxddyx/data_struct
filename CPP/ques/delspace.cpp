@@ -7,6 +7,7 @@ void delSpace(char* str)
 
     char* pStart = str;
     char* pEnd = str;
+    int count = 0;
 
     while(*pEnd != '\0')
     {
@@ -14,8 +15,13 @@ void delSpace(char* str)
         { 
             *pStart++ = *pEnd;
         }
+        else
+        {
+            ++count;
+        }
         pEnd++;
     }
+    std::cout << count << std::endl;
     *pStart='\0';
 }
 
