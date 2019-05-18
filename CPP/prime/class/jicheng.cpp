@@ -7,20 +7,37 @@ class Base
         Base(int data)
             :m_data(data)
         {}
-    protected:
-        void Print() 
+
+        virtual void Print() 
         {
             cout << this->m_data << endl;
         }
 
+    private:
         int m_data;
 
 };
 
+class Drived : public Base
+{
+    public:
+        Drived(int data = 0, int bData = 0)
+            :Base(bData), m_data(data)
+        {
+        }
+
+        virtual void Print()
+        {
+            cout << m_data << endl;
+        }
+    private:
+        int m_data = 0;
+};
+
 int main(void)
 {
-    Base b(10);
-    b.Print();
+    Base *p = new Drived(10, 20);
+    p->Print();
 
     return 0;
 }
