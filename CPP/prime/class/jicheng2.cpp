@@ -12,7 +12,7 @@ class Base
 class Derived : public Base
 {
     public:
-        virtual void print(int num = 20)
+        void print(int num = 20)
         {
             std::cout << "I'm Derived: " << num << std::endl;
         }
