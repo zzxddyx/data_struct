@@ -29,6 +29,7 @@
 
 /*
 ** equality for long strings
+ * 长度相同挨个字符比较;否则返回长的
 */
 int luaS_eqlngstr (TString *a, TString *b) {
   size_t len = a->tsv.len;
@@ -41,9 +42,8 @@ int luaS_eqlngstr (TString *a, TString *b) {
 
 /*
 ** equality for strings
-*/
-/*
- * 如果是
+ * 如果是短字符串直接比较地址
+ * 如果是长字符串调用luaS_eqlngstr
  */
 int luaS_eqstr (TString *a, TString *b) {
   return (a->tsv.tt == b->tsv.tt) &&
@@ -51,6 +51,9 @@ int luaS_eqstr (TString *a, TString *b) {
 }
 
 
+/*
+ * 字符串的hash
+ */
 unsigned int luaS_hash (const char *str, size_t l, unsigned int seed) {
   unsigned int h = seed ^ cast(unsigned int, l);
   size_t l1;
@@ -63,6 +66,7 @@ unsigned int luaS_hash (const char *str, size_t l, unsigned int seed) {
 
 /*
 ** resizes the string table
+重新内存调整，重排元素
 */
 void luaS_resize (lua_State *L, int newsize) {
   int i;
@@ -98,6 +102,10 @@ void luaS_resize (lua_State *L, int newsize) {
 /*
 ** creates a new string object
 */
+
+/*
+ * 创建对象，创建完成后会在字符串的结尾添加'\0'用于兼容c
+ */
 static TString *createstrobj (lua_State *L, const char *str, size_t l,
                               int tag, unsigned int h, GCObject **list) {
   TString *ts;
@@ -116,6 +124,10 @@ static TString *createstrobj (lua_State *L, const char *str, size_t l,
 /*
 ** creates a new short string, inserting it into string table
 */
+
+/*
+ * 创建的时候先检查当前table的大小，如果超过一半调用luaS_resize重新分配,然后创建对象
+ */
 static TString *newshrstr (lua_State *L, const char *str, size_t l,
                                        unsigned int h) {
   GCObject **list;  /* (pointer to) list where it will be inserted */
@@ -133,6 +145,12 @@ static TString *newshrstr (lua_State *L, const char *str, size_t l,
 /*
 ** checks whether short string exists and reuses it or creates a new one
 */
+
+/*
+ *1. 得到该字符串的hash值;去hash对应的表内找
+ *2. 如果找到，直接返回
+ *3. 没有找到调用newshrstr创建新的
+ */
 static TString *internshrstr (lua_State *L, const char *str, size_t l) {
   GCObject *o;
   global_State *g = G(L);
@@ -156,6 +174,11 @@ static TString *internshrstr (lua_State *L, const char *str, size_t l) {
 /*
 ** new string (with explicit length)
 */
+
+/*
+ * 如果是短字符串调用internshrstr
+ * 如果是长字符串调用createstrobj
+ */
 TString *luaS_newlstr (lua_State *L, const char *str, size_t l) {
   if (l <= LUAI_MAXSHORTLEN)  /* short string? */
     return internshrstr(L, str, l);
@@ -169,6 +192,7 @@ TString *luaS_newlstr (lua_State *L, const char *str, size_t l) {
 
 /*
 ** new zero-terminated string
+创建新的字符串
 */
 TString *luaS_new (lua_State *L, const char *str) {
   return luaS_newlstr(L, str, strlen(str));
