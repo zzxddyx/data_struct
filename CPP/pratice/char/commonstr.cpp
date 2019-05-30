@@ -1,12 +1,16 @@
 #include <iostream>                                                                       
 #include <cstring>
 
-char* commonstring(char* str1, char* str2)
+void commonstring(char* str1, char* str2)
 {
     int len1 = strlen(str1);
     int len2 = strlen(str2);
-    int reslen = len1 < len2 ? len1 : len2;
-    char* result = new char[reslen];
+    if (len1 < len2)
+    {
+        char* tmp = str1;
+        str1 = str2;
+        str2 = tmp;
+    }
 
     // 长字符串放外层,短字符串放内层
 
@@ -48,8 +52,7 @@ char* commonstring(char* str1, char* str2)
     {
         std::cout << *commonstart++;
     }
-
-    return result;
+    std::cout << std::endl;
 }
 
 int main(void)
@@ -57,10 +60,7 @@ int main(void)
     char str1[] = "welcome to china133456789";
     char str2[] = "welcome too china123456789";
 
-    char* result = commonstring(str1, str2);
-    std::cout << result << std::endl;
-    delete result;
-    result = NULL;
+    commonstring(str1, str2);
 
     return 0;
 }
