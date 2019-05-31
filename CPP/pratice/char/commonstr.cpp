@@ -5,14 +5,13 @@ void commonstring(char* str1, char* str2)
 {
     int len1 = strlen(str1);
     int len2 = strlen(str2);
+    // 长字符串放外层,短字符串放内层
     if (len1 < len2)
     {
         char* tmp = str1;
         str1 = str2;
         str2 = tmp;
     }
-
-    // 长字符串放外层,短字符串放内层
 
     int maxcommonlen = 0;
     char* commonstart = NULL;
