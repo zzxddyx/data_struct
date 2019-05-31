@@ -20,10 +20,28 @@ class MyString
         const char& operator[](int i) const;
 
         MyString& operator+(MyString& refStr);
-        MyString& operator+=(const MyString* refStr);
+        MyString& operator+=(const MyString& refStr);
         MyString& operator+=(const char* str);
 
     public:
+        friend std::ostream& operator<<(std::ostream& os, MyString& refStr);
+        friend bool operator<(const MyString& lstr, const MyString& rstr);
+        friend bool operator>(const MyString& lstr, const MyString& rstr);
+        friend bool operator==(const MyString& lstr, const MyString& rstr);
+        friend bool operator!=(const MyString& lstr, const MyString& rstr);
+
+    public:
+        int length()
+        {
+            char *tmp = mStr;
+            int len = 0;
+            while(*tmp != '\0')
+            {
+                len++;
+                tmp++;
+            }
+            return len;
+        }
         void Print()
         {
             std::cout << mStr << std::endl;

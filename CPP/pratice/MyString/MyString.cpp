@@ -127,3 +127,38 @@ MyString& MyString::operator+=(const char* str)
     delete []tmp;
     return *this;
 }
+
+std::ostream& operator<<(std::ostream& os, MyString& refStr)
+{
+    for(int index = 0; index < refStr.length(); ++index)
+        os << refStr[index];
+    return os;
+}
+
+bool operator<(const MyString& lstr, const MyString& rstr)
+{
+    int index = 0;
+    while(lstr[index] == rstr[index] && lstr[index] != '\0' && rstr[index] != '\0')
+        index++;
+
+    return lstr[index] < rstr[index] ? true : false;
+}
+
+bool operator>(const MyString& lstr, const MyString& rstr)
+{
+    return !operator<(lstr, rstr);
+}
+
+bool operator==(const MyString& lstr, const MyString& rstr)
+{
+    int index = 0;
+    while(lstr[index] != '\0' && rstr[index] != '\0' && lstr[index] == rstr[index])
+        index++;
+
+    return (lstr[index] == '\0' && rstr[index] == '\0') ? true : false;
+}
+
+bool operator!=(const MyString& lstr, const MyString& rstr)
+{
+    return !operator==(lstr, rstr);
+}
