@@ -1,27 +1,16 @@
 #include <iostream>
 #include <cstring>
+#include <cstdio>
 
 const int arraySize = 1024;
-
-int getlen(char* str)
-{
-    if (NULL == str)
-        return 0;
-
-    char* tmp = str;
-    int len = 0;
-    while(*tmp != '\0')
-    {
-        tmp++;
-        len++;
-    }
-    return len;
-}
 
 void transformation(char* str)
 {
     if(NULL == str)
         return;
+
+    int len = strlen(str);
+    char* tmpArr = new char[len+1];
 
     char* pstr = str;
     char* next = pstr+1;
@@ -31,23 +20,34 @@ void transformation(char* str)
     {
         if(*pstr == *next)
         {
+            ++pstr;
+            ++next;
             ++count;
         }
         else
         {
-            int lesslen = getlen(next);
-            std::cout << lesslen << std::endl;
-            memmove(next+1, next, lesslen);
-            *next = count;
+            sprintf(tmpArr, "%d", count);
+            int tmpLen = strlen(tmpArr);
+            strcat(tmpArr, next);
+            *next = '\0';
+            strcat(str, tmpArr);
+            next += tmpLen;
+            pstr = next;
+            next = pstr+1;
+            count=1;
         }
-        ++pstr;
-        ++next;
     }
+
+    sprintf(tmpArr, "%d", count);
+    strcat(str, tmpArr);
+
+    delete []tmpArr;
+    tmpArr = NULL;
 }
 
 int main(void)
 {
-    char arr[arraySize] = "aaaabbbccd";
+    char arr[arraySize] = "aaaaaaaaaaa";
     std::cout << arr << std::endl;
     transformation(arr);
     std::cout << arr << std::endl;
