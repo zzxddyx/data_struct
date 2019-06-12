@@ -142,7 +142,9 @@ NODE *search_mid(NODE *phead) // 寻找中间元素
     while(fast != NULL && fast->next != NULL)
     {
         slow = slow->next;
-        fast = fast->next->next;
+        fast = fast->next;
+        if(fast != NULL)
+            fast = fast->next;
     }
 
     return slow;
