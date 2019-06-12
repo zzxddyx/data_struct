@@ -9,12 +9,12 @@ NODE *create(int n) // 创建
     return pNew;
 }
 
-void connect(NODE *pcur, NODE *pnext) // 结点链接
+void connect(NODE *pCur, NODE *pNext) // 结点链接
 {
-    if(pcur == NULL)
+    if(pCur == NULL)
         return;
 
-    pcur->next = pnext;
+    pCur->next = pNext;
 }
 
 void print(NODE *phead) // 打印
@@ -85,38 +85,167 @@ NODE *delets(NODE *phead, int pos) // 结点删除
         return phead;
 
     NODE *pPre = phead;
-    NODE *pCur = pPre->next
+    NODE *pCur = phead;
 
-    while(pos > 0)
+    if(pos == 1)
     {
-
+        pCur = phead->next;
+        delete phead;
+        phead = NULL;
+        return pCur;
     }
 
+    for(int i = 1; i < pos; ++i)
+    {
+        pPre = pCur;
+        pCur = pCur->next;
+    }
 
+    pPre->next = pCur->next;
+    delete pCur;
+    pCur = NULL;
+
+    return phead;
 }
 
 NODE *reverse(NODE *phead) // 翻转
 {
+    if(phead == NULL)
+        return NULL;
 
+    NODE *pNewHead = NULL;
+    NODE *pCur = phead;
+    NODE *pPre = NULL;
+
+    while(pCur != NULL)
+    {
+        NODE *pNext = pCur->next;
+        if(pNext == NULL)
+            pNewHead = pCur;
+
+        pCur->next = pPre;
+        pPre = pCur;
+        pCur = pNext;
+    }
+
+    return pNewHead;
 }
 
 NODE *search_mid(NODE *phead) // 寻找中间元素
 {
+    if(phead == NULL || phead->next == NULL)
+        return phead;
+
+    NODE *slow = phead;
+    NODE *fast = phead;
+
+    while(fast != NULL && fast->next != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    return slow;
 }
 
 NODE *sort(NODE *phead) // 排序
 {
+    if(phead == NULL || phead->next == NULL)
+        return phead;
 
+    for(NODE *p1 = phead; p1 != NULL; p1 = p1->next)
+    {
+        for(NODE *p2 = p1->next; p2 != NULL; p2 = p2->next)
+        {
+            if(p2->data < p1->data)
+            {
+                int tmp = p1->data;
+                p1->data = p2->data;
+                p2->data = tmp;
+            }
+        }
+    }
 
+    return phead;
 }
 
-bool isLoop(NODE *phead, NODE **start) // 判断是否有环
+NODE *isLoop(NODE *phead) // 判断是否有环
 {
+    if(phead == NULL || phead->next == NULL)
+        return NULL;
 
+    NODE *pslow = phead;
+    NODE *pfast = phead->next;
+
+    while(pfast != NULL && pfast->next != NULL)
+    {
+        if(pslow == pfast)
+            return pslow;
+
+        pslow = pslow->next;
+        pfast = pfast->next;
+        if(pfast->next != NULL)
+            pfast = pfast->next;
+    }
+    return NULL;
+}
+
+NODE *loopStart(NODE *phead)
+{
+    if(phead == NULL || phead->next == NULL)
+        return phead;
+
+    NODE *loop = isLoop(phead);
+    if(loop == NULL)
+        return NULL;
+
+    // 找出环中的个数
+    int count = 1;
+    NODE *meet = loop;
+    while(meet != loop->next)
+    {
+        ++count;
+        loop = loop->next;
+    }
+
+    // 两个指针找到入口
+    NODE *p1 = phead;
+    for(int i = 0; i < count; ++i)
+        p1 = p1->next;
+        
+    NODE *p2 = phead;
+    while(p1 != p2)
+    {
+        p1 = p1->next;
+        p2 = p2->next;
+    }
+
+    return p1;
 }
 
 NODE *merge(NODE *phead1, NODE *phead2) // 两个有序链表合并
 {
+    if(phead1 == NULL && phead2 == NULL)
+        return NULL;
 
+    if(phead1 == NULL)
+        return phead2;
+
+    if(phead2 == NULL)
+        return phead1;
+
+    NODE *pHead = NULL;
+    if(phead1->data < phead2->data)
+    {
+        pHead = phead1;
+        pHead->next = merge(phead1->next, phead2);
+    }
+    if(phead1->data > phead2->data)
+    {
+        pHead = phead2;
+        pHead->next = merge(phead1, phead2->next);
+    }
+
+    return pHead;
 }
 

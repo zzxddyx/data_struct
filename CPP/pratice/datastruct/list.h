@@ -19,7 +19,8 @@ NODE *delets(NODE *phead, int pos); // 结点删除
 NODE *reverse(NODE *phead); // 翻转
 NODE *search_mid(NODE *phead); // 寻找中间元素
 NODE *sort(NODE *phead); // 排序
-bool isLoop(NODE *phead, NODE **start); // 判断是否有环
+NODE *isLoop(NODE *phead); // 判断是否有环
+NODE *loopStart(NODE *phead);
 NODE *merge(NODE *phead1, NODE *phead2); // 两个有序链表合并
 
 #endif //_LIST_H_
