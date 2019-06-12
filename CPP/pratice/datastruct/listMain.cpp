@@ -68,7 +68,7 @@ int main(void)
     std::cout << "loop start is : " << start->data << std::endl;
     */
 
-    NODE *res = merge(p1, pp1);
+    NODE *res = mergeList(p1, pp1);
     std::cout << "merge is : ";
     print(res);
 

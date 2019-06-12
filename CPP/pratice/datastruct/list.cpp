@@ -251,3 +251,66 @@ NODE *merge(NODE *phead1, NODE *phead2) // 两个有序链表合并
     return pHead;
 }
 
+NODE *mergeInsert(NODE *head, NODE *node)
+{
+    NODE *pPre = head;
+    NODE *pCur = head;
+
+    while(pCur != NULL && pCur->data <= node->data)
+    {
+        pPre = pCur;
+        pCur = pCur->next;
+    }
+
+    if(pCur == head)
+    {
+        node->next = pCur;
+        return node;
+    }
+    else
+    {
+        pPre->next = node;
+        node->next = pCur;
+        return head;
+    }
+}
+
+NODE *mergeList(NODE *phead1, NODE *phead2)
+{
+    if(phead1 == NULL || phead2 == NULL)
+        return NULL;
+
+    if(phead1 == NULL)
+        return phead2;
+
+    if(phead2 == NULL)
+        return phead1;
+
+    NODE *newHead = NULL;
+    NODE *pTmp = NULL;
+
+    int len1 = length(phead1);
+    int len2 = length(phead2);
+
+    if(len1 >= len2)
+    {
+        newHead = phead2;
+        pTmp = phead1;
+    }
+    else
+    {
+        newHead = phead1;
+        pTmp = phead2;
+    }
+
+    NODE *pPos = NULL;
+    while(pTmp != NULL)
+    {
+        pPos = pTmp->next;
+        newHead = mergeInsert(newHead, pTmp);
+        pTmp = pPos;
+    }
+
+    return newHead;
+}
+
