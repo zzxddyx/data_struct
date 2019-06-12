@@ -1,0 +1,11 @@
+mysql的status和variables区别:
+相同点:
+    可以通过命令查看mysql相应的系统参数
+    show status like '%innodb%';
+    show variables list '%innodb%';
+不同点:
+    status是系统的状态不可更改,是系统现在的运行状态参数
+    variables是系统相关的配置信息,可以通过set或者修改配置来修改
+
+
+
