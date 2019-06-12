@@ -27,6 +27,9 @@ int main(void)
     else
         std::cout << "not search the node" << std::endl;
 
+    res = insert(p1, 7);
+    print(res);
+
 
     return 0;
 }

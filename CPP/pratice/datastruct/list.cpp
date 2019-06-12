@@ -54,17 +54,44 @@ NODE *search(NODE *phead, int pos) // 但链表结点的查找
         pTmp = pTmp->next;
         index++;
     }
+    return NULL;
 }
 
 NODE *insert(NODE *phead, int data) // 结点的插入
 {
+    NODE *pNew = new NODE();
+    pNew->data = data;
+    pNew->next = NULL;
+
     if(phead == NULL)
     {
+        phead = pNew;
+        phead->next = NULL;
     }
+    else
+    {
+        NODE *pTmp = phead;
+        while(pTmp->next != NULL)
+            pTmp = pTmp->next;
+        pTmp->next = pNew;
+    }
+    return phead;
 }
 
 NODE *delets(NODE *phead, int pos) // 结点删除
 {
+    int len = length(phead);
+    if(pos > len)
+        return phead;
+
+    NODE *pPre = phead;
+    NODE *pCur = pPre->next
+
+    while(pos > 0)
+    {
+
+    }
+
 
 }
 
