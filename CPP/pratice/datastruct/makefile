@@ -1,5 +1,5 @@
-OBJ=list.o listMain.o
-HEAD=list.h
+OBJ=doubleList.o doubleListMain.o
+HEAD=doubleList.h
 BIN=bin
 
 $(BIN):$(OBJ)
