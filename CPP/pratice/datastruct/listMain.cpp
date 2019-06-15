@@ -13,9 +13,14 @@ int main(void)
     connect(p2, p3);
     connect(p3, p4);
     connect(p4, p5);
-    connect(p5, p6);
-    connect(p6, NULL);
+    connect(p5, NULL);
+    //connect(p6, NULL);
 
+    print(p1);
+    NODE *res = revertTwoNode(p1);
+    print(res);
+
+    /*  
     NODE *pp1 = create(2);
     NODE *pp2 = create(4);
     NODE *pp3 = create(6);
@@ -31,7 +36,6 @@ int main(void)
     connect(pp6, NULL);
 
 
-    /*  
     NODE *res = NULL;
     std::cout << "length : " << length(p1) << std::endl;
     std::cout << "list node : ";
@@ -66,11 +70,11 @@ int main(void)
     std::cout << "check is loop : " << loop->data << std::endl;
     NODE *start = loopStart(p1);
     std::cout << "loop start is : " << start->data << std::endl;
-    */
 
     NODE *res = mergeList(p1, pp1);
     std::cout << "merge is : ";
     print(res);
+    */
 
     return 0;
 }

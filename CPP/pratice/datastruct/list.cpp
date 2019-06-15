@@ -314,3 +314,35 @@ NODE *mergeList(NODE *phead1, NODE *phead2)
     return newHead;
 }
 
+NODE *revertTwoNode(NODE *phead)
+{
+    /*  
+    if(phead == NULL || phead->next == NULL)
+        return phead;
+
+    NODE *pNext = phead->next;
+    phead->next = revertTwoNode(pNext->next);
+    pNext->next = phead;
+
+    return pNext;;
+    */
+
+    NODE **newHead = &phead;
+    NODE *pCur = *newHead;
+    NODE *pNext = pCur->next;
+
+    //while((pCur = *newHead) != NULL && (pNext = pCur->next) != NULL)
+    while(pCur != NULL && pNext != NULL)
+    {
+        pCur->next = pNext->next;
+        pNext->next = pCur;
+        *newHead = pNext;
+        newHead = &(pCur->next);
+
+        pCur = *newHead;
+        pNext = pCur->next;
+    }
+
+    return  phead;
+}
+

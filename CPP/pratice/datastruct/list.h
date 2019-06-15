@@ -24,5 +24,6 @@ NODE *loopStart(NODE *phead);
 NODE *merge(NODE *phead1, NODE *phead2); // 两个有序链表合并
 NODE *mergeList(NODE *phead1, NODE *phead2);
 NODE *mergeInsert(NODE *phead, NODE *node);
+NODE *revertTwoNode(NODE *phead);
 
 #endif //_LIST_H_

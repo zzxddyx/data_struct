@@ -7,5 +7,18 @@ mysql的status和variables区别:
     status是系统的状态不可更改,是系统现在的运行状态参数
     variables是系统相关的配置信息,可以通过set或者修改配置来修改
 
+页是mysql存储管理的基本单位,一个页的大小默认为16kb,记录存放在页中.
+各个数据页组成一个双向链表,每个数据页中的记录又组成一个单向链表,每个数据页都会为存储在里面的数据生成一个页目录,在通过主键查找某条记录的时候可以在页目录中使用二分查找快速定位到相应的槽,然后再遍历该槽对应分组中的记录即可快速找到指定的记录.
+
+索引失效的情况:
+    1. 查询条件中有or,即使部分条件带有索引也不会使用,除非条件中列全部有索引; 
+        select * from table_name where id = 1 or id = 4; --> 不会失效
+        select * from table_name where id = 1 or nane = 4; --> 会失效
+    2. like查询是以%开头 select * from table where clome1 like '%aaa';
+    3. 如果列类型是字符串,一定要在条件中将数据使用引号引用起来,否则不实用索引
+        select * from table_name where name = 'xxx';
+
+操作语句
+
 
 
