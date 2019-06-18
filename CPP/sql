@@ -19,6 +19,40 @@ mysql的status和variables区别:
         select * from table_name where name = 'xxx';
 
 操作语句
+    查询语句:
+        简单查询 : select clo_name from table_name;
+        条件查询 : select clo_name from table_name where [>, >=, <, <=, =, <>, and, or, not, like]
+        结果排序 : select clo_name from table_name [order by(正序), order by desc(倒序)]
+        分页查询 : limit <m> offset <n>; offset是可选的
+                   select clo_name from table_name [limit 10 offset 0, limit 10]
+        聚合查询 : 聚合函数 count, sum, avg, max, min
+                   select [count(col_name), sum(col_name), ...] from table_name where ...
+                   分组聚合 group by
+                   select [avg(score), ...] from table_name group by [col_name1, col_name2, ...]
+        多表查询 : select * from [table_name1, table_name2, ...]
+        连接查询 : 对多个表进行join查询
+                   基本语法格式:
+                        1. 先确定主表,任然使用 from <表1> 的语法
+                        2. 再选择需要连接的表,使用 inner join <表2>
+                        3. 然后选择连接条件,使用 on <条件...> 
+                        4. 可选 : 加上where子句, order by子句 
+                   内连接(inner join) : 只返回同时存在于两张表中的数据
+                   右外连接(right outer join) : 返回右表都存在的行,如果某一行仅存在于右表,那么结果集就会用NULL填充
+                   左外连接(left outer join)  : 返回左表都存在的行,如果某一行仅存在于左表,那么结果集就会用NULL填充
+                   全外连接(full outer join)  : 会把两张表都存在的记录选择出来,并且自动把对方不存在的列置为NULL
+    插入语句:
+        insert into <表名>(字段1, 字段2, ...) values(值1, 值2, ...)
+    修改语句:
+        update <表名> set 字段1=值1, 字段2=值2, ... where ...
+    删除语句:
+        delete from <表名> where ...
+
+
+
+                   
+               
+
+
 
 
 
