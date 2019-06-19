@@ -47,6 +47,26 @@ mysql的status和variables区别:
     删除语句:
         delete from <表名> where ...
 
+管理MySQL：
+    创建一个新的数据库: create database [dbname]
+    删除一个数据库: drop database [dbname]
+    查看一个表结果: desc table_name
+    查看表的创建语句 : show create table table_name
+    删除表 : drop table table_name
+    修改表 : alter table table_name add column clo_name varchar(10) not null;
+             alter table table_name change column old_col_name new_col_nam varchar(10) not null;
+             alter table table_name drop column col_name;
+
+实用sql语句：
+    插入或者替换:如果希望插入一条语句，该语句存在则替换，可用replace
+        replace into table_name(col_name1, col_name2, ...) values(val1, val2, ...);
+    插入或者更新:如果希望插入一条记录，记录存在则更新可用 insert into ... on duplicate key update ...
+        insert into student(id, class_id, name, gender, score) values (1, 1, '小明', 'F', 99) on duplicate key update name = '小明', gender='F', score=09;
+    插入或者忽略: 如果插入一条语句，语句存在则忽略 insert ignore into ...
+        insert ignore into student(id, class_id, name, gender, score) values(1, 1, '小明', 'F', 99)
+
+事务：
+    使用 begin 开启一个事务；使用commit提交一个事务; 使用rollback回滚事务
 
 
                    
